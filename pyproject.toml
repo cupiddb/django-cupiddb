@@ -1,0 +1,41 @@
+[project]
+name = "django-cupiddb"
+version = "0.1.0"
+description = "CupidDB cache backend for Django"
+authors = [{ name = "Watt Iamsuri", email = "wiamsuri@gmail.com" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+classifiers = [
+  "Framework :: Django",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: Apache Software License",
+  "Topic :: Utilities",
+]
+keywords = ["cupiddb", "cache", "backend", "django", "in-memory database"]
+dependencies = [
+  "pycupiddb >= 1.0.0",
+  "Django >= 4.2",
+]
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+tests = [
+  "pytest >= 8.2.0",
+  "mypy >= 1.10.0",
+  "pytest-cov >= 5.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/cupiddb/django-cupiddb"
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pycupiddb"]
