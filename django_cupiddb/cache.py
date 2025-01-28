@@ -1,18 +1,24 @@
+from typing import Optional
 from django.core.cache.backends.base import (
     DEFAULT_TIMEOUT,
     BaseCache,
 )
 from django.utils.functional import cached_property
+from .utils import reverse_key
 
 
-class BaseCupidDBCache(BaseCache):
+class BaseCupidDBDjangoCache(BaseCache):
+    '''
+    Implements the necessary functions to extend Django's BaseCache class
+    '''
+
     def __init__(self, server, params, library):
         super().__init__(params)
         self._servers = server
 
         self._lib = library
         self._class = library.CupidClient
-        self._options = params.get("OPTIONS") or {}
+        self._options = params.get('OPTIONS') or {}
 
     @property
     def client_servers(self):
@@ -77,6 +83,33 @@ class BaseCupidDBCache(BaseCache):
 
     def close(self, **kwargs):
         pass
+
+
+class BaseCupidDBCache(BaseCupidDBDjangoCache):
+    '''
+    Implements additional functionality supported by CupidDB
+    '''
+
+    def get_dataframe(self, key, version=None, **kwargs):
+        key = self.make_and_validate_key(key, version=version)
+        return self._cache._get_dataframe(key=key, **kwargs)
+
+    def ttl(self, key: str, version=None) -> float:
+        key = self.make_and_validate_key(key, version=version)
+        ttl = self._cache.ttl(key)
+        if ttl is None:
+            return 0.0
+        else:
+            return ttl
+
+    def keys(self, pattern: Optional[str] = None, version: Optional[int] = None) -> list[str]:
+        if pattern is None:
+            pattern = '*'
+        new_pattern = self.make_and_validate_key(pattern, version=version)
+        return [
+            reverse_key(key)
+            for key in self._cache.keys(new_pattern)
+        ]
 
 
 class CupidDBCache(BaseCupidDBCache):
