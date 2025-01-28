@@ -1,6 +1,6 @@
 [project]
 name = "django-cupiddb"
-version = "0.1.0"
+version = "1.4.1"
 description = "CupidDB cache backend for Django"
 authors = [{ name = "Watt Iamsuri", email = "wiamsuri@gmail.com" }]
 readme = "README.md"
@@ -18,7 +18,7 @@ classifiers = [
 ]
 keywords = ["cupiddb", "cache", "backend", "django", "in-memory database"]
 dependencies = [
-  "pycupiddb >= 1.0.0",
+  "pycupiddb >= 1.4.1",
   "Django >= 4.2",
 ]
 requires-python = ">=3.9"
